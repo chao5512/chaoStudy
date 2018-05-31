@@ -1,0 +1,3 @@
+user adduser 的代理实现
+
+借助我们写的Proxy和InvacationHandler
