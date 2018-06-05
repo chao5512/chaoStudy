@@ -12,6 +12,7 @@
         <module>hbase</module>
         <module>java</module>
         <module>algorithm</module>
+        <module>dataStructures</module>
     </modules>
 <dependencies>
     <!-- https://mvnrepository.com/artifact/junit/junit -->
