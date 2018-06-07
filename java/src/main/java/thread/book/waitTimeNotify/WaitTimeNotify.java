@@ -28,14 +28,14 @@ public class WaitTimeNotify {
                         }
                         long future = System.currentTimeMillis();
                         remaining = expectFutrue-future;
-                        expectFutrue = System.currentTimeMillis()+remaining;
                     }
                     if(remaining<0){
                         System.out.println("等待超时了");
                         System.out.println("超时处理");
+                    }else{
+                        share--;
+                        System.out.println("消费者消费了一个产品，现在产品有："+share);
                     }
-                    share--;
-                    System.out.println("消费者消费了一个产品，现在产品有："+share);
                 }
             }
     }
@@ -62,7 +62,7 @@ public class WaitTimeNotify {
         new Thread(new Wait(),"消费者").start();
         System.out.println("消费者等待产品。。。");
         try {
-            TimeUnit.SECONDS.sleep(1);
+            TimeUnit.SECONDS.sleep(5);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
