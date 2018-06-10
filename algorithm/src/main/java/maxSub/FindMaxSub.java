@@ -1,6 +1,7 @@
 package maxSub;
 
 import java.util.Random;
+import java.util.logging.Logger;
 
 /**
  * Created by wangchao on 2018/4/19.
@@ -16,6 +17,11 @@ public abstract class FindMaxSub {
         for (int i = 0; i < length; i++) {
             Random random = new Random();
             a[i] = random.nextInt()%bound;
+        }
+        if(a.length>100){
+            for (int i = 0; i < 100; i++) {
+                System.out.println(a[i]);
+            }
         }
         return a;
     }

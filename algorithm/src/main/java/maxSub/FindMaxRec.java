@@ -4,7 +4,7 @@ package maxSub;
  * 分治法（递归思想）
  * Created by wangchao on 2018/4/19.
  */
-public class T2 extends FindMaxSub {
+public class FindMaxRec extends FindMaxSub {
     public int maxSub(int[] A,int s,int e){
         //设置函数出口
         if(s ==e){
@@ -40,8 +40,8 @@ public class T2 extends FindMaxSub {
     }
 
     public static void main(String[] args) {
-        T2 t2 = new T2();
+        FindMaxRec findMaxRec = new FindMaxRec();
         int[] a = {1,-2,3,10,-4,7,2,-5};
-        System.out.println(t2.maxSub(a,0,a.length-1));
+        System.out.println(findMaxRec.maxSub(a,0,a.length-1));
     }
 }
