@@ -8,38 +8,41 @@ package Collection;
  */
 public class StackArr<E> implements Stack<E>{
     private int DEFAULT_CAPACITY = 1024;
+    private int CAPACITY;
     private Object[] elements;
     private int top = -1; //top置一为空
     private int size = 0;
 
     public StackArr() {
-        elements = new Object[DEFAULT_CAPACITY];
+        this.CAPACITY = DEFAULT_CAPACITY;
+        this.elements = new Object[CAPACITY];
     }
 
     public StackArr(int capacity) {
-        elements = new Object[capacity];
+        this.CAPACITY = capacity;
+        this.elements = new Object[capacity];
     }
 
     @Override
     public void push(E e) {
-        if(size >= elements.length){
+        if(this.size >= this.elements.length){
             String msg = "栈满异常";
-            throw new ExceptionStackFull(msg);
+            throw new ExceptionDataStructFull(msg);
         }
-        elements[++top] = e;
-        size++;
+        this.elements[++this.top] = e;
+        this.size++;
     }
 
     @Override
     public E pop() {
         if(isEmpty()){
             String msg = "栈空异常";
-            throw new ExceptionStackEmpty(msg);
+            throw new ExceptionDataStructEmpty(msg);
         }
         E e = null;
-        e = (E)elements[top];
-        elements[top--] = null;
-        size--;
+        e = (E)this.elements[top];
+        this.elements[this.top--] = null;
+        this.size--;
         return e;
     }
 
@@ -47,18 +50,18 @@ public class StackArr<E> implements Stack<E>{
     public E peek() {
         if(isEmpty()){
             String msg = "栈空异常";
-            throw new ExceptionStackEmpty(msg);
+            throw new ExceptionDataStructEmpty(msg);
         }
-        return (E)elements[top];
+        return (E)this.elements[this.top];
     }
 
     @Override
     public int size() {
-        return size;
+        return this.size;
     }
 
     @Override
     public boolean isEmpty() {
-        return size <= 0; //注意这里等于零也是空
+        return this.size <= 0; //注意这里等于零也是空
     }
 }
