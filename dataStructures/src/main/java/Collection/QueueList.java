@@ -47,4 +47,11 @@ public class QueueList<E> implements Queue<E>{
     public boolean isEmpty() {
         return size <= 0;
     }
+
+    @Override
+    public void clear() {
+        first = new Node<>(null, tail);
+        tail = null;
+        size = 0;
+    }
 }

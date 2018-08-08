@@ -87,4 +87,12 @@ public class DequeImpl<E> implements Deque<E>{
     public boolean isEmpty() {
         return size() <= 0;
     }
+
+    @Override
+    public void clear() {
+        this.first = new DeNode<>(null,null,null);
+        this.last = new DeNode<>(null,null,null);
+        this.first.setNext(last);
+        this.last.setPrev(first);
+    }
 }

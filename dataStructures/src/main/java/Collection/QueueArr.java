@@ -3,7 +3,6 @@ package Collection;
 
 /**
  * 队列的数组实现.
- * todo：用环形数组
  * Created by wangchao on 2018/8/7.
  */
 public class QueueArr<E> implements Queue<E>{
@@ -54,5 +53,13 @@ public class QueueArr<E> implements Queue<E>{
     @Override
     public boolean isEmpty() {
         return size() <= 0;
+    }
+
+    @Override
+    public void clear() {
+        first = -1;
+        index = -1;
+        this.elements = new Object[CAPACITY];
+
     }
 }

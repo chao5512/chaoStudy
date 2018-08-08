@@ -21,6 +21,12 @@ public class StackList<E> implements Stack<E>{
     }
 
     @Override
+    public void clear() {
+        this.top = null;
+        this.size = 0;
+    }
+
+    @Override
     public void push(E e) {
         Node<E> eNode = new Node<>(e, top);
         top = eNode;

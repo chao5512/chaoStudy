@@ -8,4 +8,5 @@ package Collection;
 public interface DataStruct<E> {
     public int size();
     public boolean isEmpty();
+    public void clear();
 }
