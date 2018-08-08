@@ -25,11 +25,12 @@ public class QueueArr<E> implements Queue<E>{
 
     @Override
     public void push(E e) {
-        if(size() >= CAPACITY){
+        if(size() >= CAPACITY-1){
             String msg = "队列已满";
             throw new ExceptionDataStructFull(msg);
         }
-        elements[++index] = e;
+        index = ++index%CAPACITY;
+        elements[index] = e;
     }
 
     @Override
@@ -39,14 +40,15 @@ public class QueueArr<E> implements Queue<E>{
             throw new ExceptionDataStructEmpty(msg);
         }
         E e;
-        e = (E)elements[++first];
+        first = ++first%CAPACITY;
+        e = (E)elements[first];
         elements[first] = null;
         return e;
     }
 
     @Override
     public int size() {
-        return index - first;
+        return (index - first + CAPACITY)%(CAPACITY);
     }
 
     @Override
