@@ -64,4 +64,11 @@ public class StackArr<E> implements Stack<E>{
     public boolean isEmpty() {
         return this.size <= 0; //注意这里等于零也是空
     }
+
+    @Override
+    public void clear() {
+        this.elements = new Object[CAPACITY];
+        this.top = -1; //top置一为空
+        this.size = 0;
+    }
 }
