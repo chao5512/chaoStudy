@@ -6,24 +6,25 @@ package sort;
  * 索引的元素插入左边的元素序列的合适位置
  * Created by wangchao on 2018/7/9.
  */
+// Time Complexity -> O(n^2);
+// Memory Complexity -> O(1);
+// In case of an almost sorted small array, use this
+// swapping and shifting are the same complexity , takes constant time
 public class InsertSort extends Sort {
     @Override
     public void sort(Comparable[] a) {
-        Comparable t;
-        for (int i = 1; i < a.length; i++) {
-            for (int j = 0; j < i; j++) {
-                if(lessThan(a[i],a[j])){
-                    //i元素插入j的位置，j右面的元素后移一位
-                    t = a[i];
-                    for (int k = i; k > j; k--) {
-                        a[k] = a[k-1];
-                    }
-                    a[j] = t;
-                    break;
-                }
+        int hi = a.length;
+        for (int i = 1; i < hi; i++) {
+            int j=i-1;
+            Comparable t = a[i];
+            while (j>=0&&a[j].compareTo(t)>0){
+                a[j+1]=a[j];
+                j--;
             }
+            a[j+1]=t;
         }
     }
+
 
     public static void main(String[] args) {
 
