@@ -5,13 +5,12 @@ package sort;
  * Created by wangchao on 2018/7/11.
  */
 public class MergeSort extends Sort {
-    private Comparable[] aux;
 
     @Override
     public void sort(Comparable[] a) {
         int lo = 0;
         int hi = a.length - 1;
-        aux = new Comparable[a.length];//一次性分配空间
+        Comparable[] aux = new Comparable[a.length];//一次性分配空间
         sort(a, aux,lo, hi);
     }
 
@@ -19,7 +18,7 @@ public class MergeSort extends Sort {
         if (lo >= hi) {
             return;
         }
-        int mid = lo + (hi - lo) / 2;
+        int mid = lo + ((hi - lo)>>>1);
         sort(a,aux ,lo, mid);
         sort(a,aux ,mid + 1, hi);
         merge(a,aux, lo, mid, hi);
@@ -29,25 +28,17 @@ public class MergeSort extends Sort {
     private void merge(Comparable[] a,Comparable[] aux, int lo, int mid, int hi) {
         assert isSorted(a, lo, mid);
         assert isSorted(a, mid + 1, hi);
+        //如果已经有序了，直接返回原数组
+        if(lessThan(a[mid],a[mid+1]))return;
+        //
         for (int i = lo; i <= hi; i++) {
             aux[i] = a[i];
         }
-        int i = lo;
-        int j = mid + 1;
-        int k = lo;
-        if (lo >= hi) {
-            return;
-        }
-        while (k<=hi){
-            if (i > mid) {
-                a[k++]=aux[j++];
-            } else if (j > hi) {
-                a[k++] = aux[i++];
-            } else if (lessThan(aux[i], aux[j])) {
-                a[k++] = aux[i++];
-            } else{
-                a[k++] = aux[j++];
-            }
+        for(int i = lo, p = lo, q = mid+1; i <= hi; i++) {
+            if (q > hi || p < mid+1 && lessThan(aux[p],aux[q]))
+                a[i] = aux[p++];
+            else
+                a[i] = aux[q++];
         }
     }
 
