@@ -2,6 +2,7 @@ package pattern.singleton;
 
 /**
  * 单例懒汉模式
+ * 在类加载时就创建了对象，但是我们可能很长时间都没用到，浪费资源
  * Created by wangchao on 2018/6/5.
  */
 public class Singleton1 {
