@@ -22,43 +22,65 @@ public class GracefulStop {
                 }
             }
         };
+        Runnable fastwork = ()->{
+            System.out.println("real业务开始");
+            try {
+                TimeUnit.SECONDS.sleep(2);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("real业务结束");
+        };
         //2. 提交业务
-        StoppableThread stoppableThread = new StoppableThread(work);
-        new Thread(stoppableThread).start();
-        TimeUnit.SECONDS.sleep(3);
-        //3. 3秒后停止业务
-        stoppableThread.shutdown();
+        StoppableThread stoppableThread = new StoppableThread();
+        stoppableThread.execute(fastwork);
+
+        //3. 超时后停止业务
+        stoppableThread.shutdown(2000);
     }
 
-    static class StoppableThread implements Runnable{
+    static class StoppableThread{
         public volatile boolean stopped = false;
-        private Runnable work;
+        public volatile boolean hasFinished = false;
+        private Thread outerThread ;
 
-        public StoppableThread(Runnable work) {
-            this.work = work;
-        }
-
-        @Override
-        public void run() {
-            new Thread(()->{
+        public void execute(Runnable task) {
+            outerThread = new Thread(()->{
                 //真正的工作线程--
-                Thread worker = new Thread(work);
+                Thread worker = new Thread(task);
                 worker.setDaemon(true);
                 worker.start();
                 //真正的工作线程--
-                while (!stopped){
-                    try {
-                        System.out.println("我还跑着呢");
-                        TimeUnit.SECONDS.sleep(1);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                try {
+                    worker.join();
+                    hasFinished = true;
+                } catch (InterruptedException e) {
+                    System.out.println("外层应用线程被打断了！");
                 }
-            }).start();
+            });
+            outerThread.start();
         }
 
-        public void shutdown(){
-            stopped = true;
+        public void shutdown(long timeout){
+            long markPoint = System.currentTimeMillis();
+            while (true){
+                try {
+                    TimeUnit.SECONDS.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if(System.currentTimeMillis()-markPoint<=timeout&&hasFinished){
+                    System.out.println("任务完成，停止辅助线程！");
+                    stopped = true;
+                    outerThread.interrupt();
+                    break;
+                }else if(System.currentTimeMillis()-markPoint>timeout){
+                    System.out.println("任务超时，打断他");
+                    stopped = true;
+                    outerThread.interrupt();
+                    break;
+                }
+            }
         }
     }
 }
